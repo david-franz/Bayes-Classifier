@@ -1,6 +1,9 @@
 # we start at 1 so we don't get any features with count 0
-spam_counts = [1] * 12
-not_spam_counts = [1] * 12
+# ith index of list is the ith word of our list of spam words:
+# 		• index 0 of that list is the count of emails that DON'T have that word (false)
+# 		• index 1 of that list is the count of emails that DO have that word (true)
+not_spam_counts = [[1, 1]] * 12
+spam_counts = [[1, 1]] * 12
 
 class DataLoader:
 
@@ -13,13 +16,14 @@ class DataLoader:
 
 			for line in lines:
 				if bool(int(line[len(line)-1])): # this means that the document is classed as spam
-					for i, c in enumerate(line[:-1]):
-						if bool(int(c)):
-							spam_counts[i] += 1
+					for index, character in enumerate(line[:-1]): # character will be 0 or 1
+						spam_counts[index][int(character)] += 1
 
 				else: # this means that the document has been classified as not spam
-					for i, c in enumerate(line[:-1]):
-						if bool(int(c)):
-							not_spam_counts[i] += 1
+					for index, character in enumerate(line[:-1]): # character will be 0 or 1
+						not_spam_counts[index][int(character)] += 1
 
-		return spam_counts, not_spam_counts
+		# we return a tuple of the lists described above with:
+		# 		• index 0 is the list of counts where the email ISN'T marked as spam (false)
+		# 		• index 1 is the list of counts where the email IS marked as spam (true)
+		return not_spam_counts, spam_counts
