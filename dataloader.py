@@ -25,7 +25,6 @@ class DataLoader:
 					for index, character in enumerate(line[:-1]):
 						not_spam_counts[index][int(character)] += 1
 
-				
 
 		# we return a tuple of the lists described above with:
 		# 		• index 0 is the list of counts where the email ISN'T marked as spam (false)
