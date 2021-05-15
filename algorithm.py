@@ -19,7 +19,8 @@ def posterior_probability_of_word_given_class(index_of_word, classified_as_spam)
 	print(classified_as_spam)
 	print(int(classified_as_spam))
 
-	return (word_counts__classified_as_spam[int(classified_as_spam)][index_of_word][1] / (word_counts__classified_as_spam[int(classified_as_spam)][index_of_word][0] + word_counts__classified_as_spam[int(classified_as_spam)][index_of_word][1]))
+	return (word_counts__classified_as_spam[int(classified_as_spam)][index_of_word][1] / 
+		(word_counts__classified_as_spam[int(classified_as_spam)][index_of_word][0] + word_counts__classified_as_spam[int(classified_as_spam)][index_of_word][1]))
 
 # this returns the probability that an email doesn't contain a certain word for a given email class
 def not_posterior_probability_of_word_given_class(index_of_word, classified_as_spam): # posterior probability (given class
