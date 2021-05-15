@@ -7,6 +7,8 @@ from dataloader import DataLoader
 
 word_counts__classified_as_spam = (not_spam_counts, spam_counts) = DataLoader.load_data_as_counts() # spam_counts (true) at index 1, not_spam_counts (false) at index 0
 
+# probably need another calculate probability (not a conditional one)
+
 # class meaning classified as spam or not
 def probability_of_index_given_class(index_of_count, classified_as_spam):
 	assert type(classified_as_spam) is bool
