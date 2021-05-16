@@ -18,8 +18,8 @@ class DataLoader:
 		# ith index of list is the ith word of our list of spam words:
 		# 		• index 0 of that list is the count of emails that DON'T have that word (false)
 		# 		• index 1 of that list is the count of emails that DO have that word (true)
-		not_spam_word_counts = [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]]
-		spam_word_counts = [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]]
+		not_spam_word_counts = [[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
+		spam_word_counts = [[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]]
 
 		for email_info in emails_info:
 			email_is_spam = bool(int(email_info[len(email_info)-1]))
