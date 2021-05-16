@@ -6,6 +6,7 @@ from dataloader import DataLoader
 # not_spam_counts (classified_as_spam = false) at index 0 of tuple, spam_counts (classified_as_spam = true) at index 1
 word_counts__classified_as_spam = (not_spam_counts, spam_counts, probability_of_spam) = DataLoader.load_data_as_counts("spamLabelled.dat")
 
+print(probability_of_spam)
 
 # # # # # # # # # # # # # #	#
 #	Probability Functions	#
@@ -15,6 +16,17 @@ def probability_of_spam():
 
 def probability_of_not_spam():
 	return 1 - probability_of_spam()
+
+def prior_probability_of_word(index_of_word):
+	return ((word_counts__classified_as_spam[False][index_of_word][1] +
+			 word_counts__classified_as_spam[True][index_of_word][1]) /
+	   			(word_counts__classified_as_spam[False][index_of_word][0] +
+			 	  word_counts__classified_as_spam[True][index_of_word][0] + 
+			     word_counts__classified_as_spam[False][index_of_word][1] + 
+				  word_counts__classified_as_spam[True][index_of_word][1]))
+
+def prior_probability_of_not_word(index_of_word):
+	return 1 - prior_probability_of_word(index_of_word)	
 
 # this returns the probability that an email contains a certain word for a given email class
 # class meaning classified as spam (true) or not (false)
@@ -39,13 +51,13 @@ def classifier(filename):
 
 	probabilities_of_words = list()
 
-	# these will multiply with the probability calculations below and make no difference on them
-	probability_email_is_spam = 1.0
-	probability_email_is_not_spam = 1.0
-
 	for email_info in emails_info:
+		# these will multiply with the probability calculations below and make no difference on them
+		probability_email_is_spam = 1.0
+		probability_email_is_not_spam = 1.0
+
 		for index, character in enumerate(email_info):
-			if bool(int(character)):
+			if bool(int(character)): # this means that the emails contains number index
 				probability_email_is_spam *= posterior_probability_of_word_given_class(index, True)
 				probability_email_is_not_spam *= posterior_probability_of_word_given_class(index, False)
 			else:
@@ -55,18 +67,18 @@ def classifier(filename):
 		probability_email_is_spam *= probability_of_spam() 
 		probability_email_is_not_spam *= probability_of_not_spam()
 
-		probabilities_of_words.append((probability_email_is_spam, probability_email_is_not_spam))
+		probabilities_of_words.append((probability_email_is_not_spam, probability_email_is_spam))
 
 	return probabilities_of_words
 
 
 if __name__ == "__main__":
 	print('''From our training set, we have:\n
-	• The counts of the 12 words for emails classified as spam:\n
-	{}\n\n
+• The counts of the 12 words for emails classified as spam:\n
+{}\n\n
 
-	• And the counts of the 12 words for emails classified as not spam:\n
-	{}\n\n'''
+• And the counts of the 12 words for emails classified as not spam:\n
+{}\n\n'''
 	.
 	format(spam_counts, not_spam_counts))
 
@@ -76,10 +88,11 @@ if __name__ == "__main__":
 		probability_email_is_not_spam = probability_of_word[0]
 		probability_email_is_spam = probability_of_word[1]
 
-		print(probability_email_is_not_spam)
-		print(probability_email_is_spam)
+		print("-------------------------------------")
 
-		if probability_email_is_not_spam < probability_email_is_spam: # think about which inequality I want to use here
-			print("word number {} classified as spam".format(index))
+		if probability_email_is_not_spam <= probability_email_is_spam: # think about which inequality I want to use here
+			print("email number {} classified as spam".format(index))
 		else:
-			print("word number {} classified as not spam".format(index))
+			print("email number {} classified as not spam".format(index))
+
+	print("-------------------------------------\n")
